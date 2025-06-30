@@ -73,22 +73,22 @@ export default function App() {
   // List of available drinks with default temperatures and icons
   const defaultDrinks = [
     {
-      uid: '1DACB0060A1080',
+      uid: '1DA7B0060A1080',
       name: 'Coffee',
       image: 'https://img.icons8.com/ios-filled/100/espresso-cup.png',
-      defaultTemp: 60
+      defaultTemp: 65
     },
     {
       uid: '1DAAB0060A1080',
       name: 'Milk',
       image: 'https://img.icons8.com/ios-filled/100/milk-bottle.png',
-      defaultTemp: 50
+      defaultTemp: 53
     },
     {
       uid: '1DABB0060A1080',
       name: 'Tea',
       image: 'https://img.icons8.com/ios-filled/100/tea.png',
-      defaultTemp: 65
+      defaultTemp: 57
     },
     {
       uid: '1DA9B0060A1080',
@@ -97,7 +97,7 @@ export default function App() {
       defaultTemp: 37
     },
     {
-      uid: 'FFFFFFFFFFFFFF',
+      uid: '1DAFB0060A1080',
       name: 'Chocolate',
       image: 'https://img.icons8.com/ios-filled/100/coffee.png',
       defaultTemp: 55
@@ -320,7 +320,7 @@ export default function App() {
     const alertMessage = `${message}`;
     await Notifications.scheduleNotificationAsync({
     content: {
-      title: '🫗Splash!',
+      title: 'Splash!💦',
       body: alertMessage,
       sound: 'default',
     },
@@ -342,7 +342,7 @@ export default function App() {
       });
   };
 
-  function changeColor(tempStr) {
+function changeColor(tempStr) {
     if (!detectedDrink) return 'gray';
 
     const idealTemperature = detectedDrink.defaultTemp;
@@ -350,11 +350,13 @@ export default function App() {
 
     if (isNaN(currentTemp)) return 'gray';
 
-    if (currentTemp > idealTemperature) return 'red';
-    if (currentTemp < idealTemperature) return 'dodgerblue';
+    const lowerBound = idealTemperature - 3;
+    const upperBound = idealTemperature + 3;
+
+    if (currentTemp > upperBound) return 'red';
+    if (currentTemp < lowerBound) return 'dodgerblue';
     return 'green';
 }
-
 
   return (
     <SafeAreaView style={styles.container}>
