@@ -33,7 +33,7 @@
 ## 📂 Repository Structure
 In this repository, you can find: 
 - The complete source code for both the ESP32 firmware (file **Splash_Arduino.ino**) and the mobile app (folder **App0**: **App0/App.js** is the main code, **App0/screens/HomeScreen.js** contains the code for the HomeScreen).
-- The **presentation slides** used to showcase the project (file: Splash_slides.pdf).
+- The **presentation slides** used to showcase the project (file: **Splash_slides.pdf**).
  - A **video presentation** of the project, available [here](https://drive.google.com/file/d/1A8iejdOifGIAlrLIU4XccBPIbZJm0IJg/view?usp=sharing) ▶️.
 
 
