@@ -7,8 +7,7 @@
 - **Passive monitoring** – temperature is tracked continuously in real time.  
 - **Multimodal feedback** – visual (TFT display), tactile (vibration), and digital (mobile app).  
 
-> Everything revolves around a simple, responsive, and eco-conscious user experience.
-
+> Everything revolves around a simple, responsive, environmental user experience.
 ---
 
 ## 🔧 Hardware Components
