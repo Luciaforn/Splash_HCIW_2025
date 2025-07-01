@@ -35,6 +35,7 @@ DallasTemperature sensors(&oneWire);
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
+//DataBase structure to save the optimal temperatures
 struct DrinkTemp {
   String drink;
   float opt_temp;
@@ -49,7 +50,7 @@ int contVibr = 2;
 bool firstTemp = true;
 
 
-// Wifi var
+// Wifi variables
 bool wifiConnected = false;
 bool offlineMode = false;
 unsigned long lastWifiCheck = 0;
@@ -58,7 +59,7 @@ const unsigned long WIFI_CHECK_INTERVAL = 30000; // checks every 30 sec
 const char* ssid = "Phone_1_7231";
 const char* password = "ciaociao";
 
-// temporary var for tempCheck
+// Temporary var for tempCheck
 bool isIncreasing = true;
 float previousTemp = 0.0;
 bool monitoringPhase = false;
@@ -82,6 +83,7 @@ void listSPIFFS() {
   }
 }
 
+// Updates the DB
 void saveDrinkDB() {
   StaticJsonDocument<2048> doc;
   JsonArray arr = doc.to<JsonArray>();
@@ -104,12 +106,13 @@ void saveDrinkDB() {
   Serial.println("Database saved on SPIFFS");
 }
 
+// Default values for the DB
 void loadDrinkDB() {
   File file = SPIFFS.open("/drinks.json", "r");
   if (!file || file.size() == 0) {
     Serial.println("File not found, loading default...");
-    drinkDB["1DA7B0060A1080"] = {"caffe", 65.0};
-    drinkDB["1DABB0060A1080"] = {"te", 57.0};
+    drinkDB["1DA7B0060A1080"] = {"coffee", 65.0};
+    drinkDB["1DABB0060A1080"] = {"tea", 57.0};
     drinkDB["1DAAB0060A1080"] = {"milk", 53.0};
     drinkDB["1DA9B0060A1080"] = {"baby_bottle", 37.0};
     saveDrinkDB();
@@ -134,6 +137,7 @@ void loadDrinkDB() {
   Serial.println("Database loaded from SPIFFS");
 }
 
+// Sends a JSON message to the mobile app with details about the drink detected by the NFC reader.
 void sendNFCtoApp(String uid, String drink) {
   if (wifiConnected && !offlineMode) {
     StaticJsonDocument<256> doc;
@@ -206,11 +210,13 @@ void manageNFC() {
   
 }
 
+// Requests the temperature to the sensor, saves it globally and shows in the display
 float updateTemperature() {
   float target = drinkDB[lastUid].opt_temp;
   float minRange = target - 3.0;
   float maxRange = target + 3.0;
 
+// The sensor may produce unreliable readings on the first temperature measurement.
   if (firstTemp) {
     sensors.requestTemperatures();
     float temp = sensors.getTempCByIndex(0);
@@ -433,7 +439,7 @@ void startWS() {
     Serial.println("WebSocket server ready");
   };
 
-// HANDLER HTTP CALLS
+// Handlers for the HTTP calls from the app
 void handleGetTemp(AsyncWebServerRequest *request) {
   StaticJsonDocument<128> doc;
   doc["temp"] = tempCGlobal;
